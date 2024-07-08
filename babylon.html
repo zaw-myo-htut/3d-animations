@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Babylon.js GLB Model</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; width: 100vw; height: 100vh; }
+    </style>
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="https://cdn.babylonjs.com/loaders/babylon.glTF2FileLoader.js"></script>
+</head>
+<body>
+    <canvas id="renderCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById('renderCanvas');
+        const engine = new BABYLON.Engine(canvas, true);
+        const createScene = () => {
+            const scene = new BABYLON.Scene(engine);
+            const camera = new BABYLON.ArcRotateCamera('camera1', -Math.PI / 2, Math.PI / 2.5, 5, new BABYLON.Vector3(0, 1, 0), scene);
+            camera.attachControl(canvas, true);
+
+            // Restrict vertical rotation
+            camera.lowerBetaLimit = camera.beta;
+            camera.upperBetaLimit = camera.beta;
+
+            // Disable panning
+            camera.panningSensibility = 0;
+
+            const light = new BABYLON.HemisphericLight('light', new BABYLON.Vector3(1, 1, 0), scene);
+            light.intensity = 0.7;
+
+            BABYLON.SceneLoader.Append("", "asset-image/mibot.glb", scene, function (scene) {
+                scene.createDefaultCameraOrLight(true, true, true);
+                scene.activeCamera.alpha += Math.PI;
+            });
+
+            return scene;
+        };
+
+        const scene = createScene();
+        engine.runRenderLoop(() => {
+            scene.render();
+        });
+
+        window.addEventListener('resize', function () {
+            engine.resize();
+        });
+    </script>
+</body>
+</html>
