@@ -1,144 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <style>
-       body {
-     background: #e2e76f;
-     height: 100vh;
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-     justify-content: center;
-     font-family: Arial, sans-serif;
- }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    body {
+      background: #e2e76f;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+    }
 
- h1 {
-     font-size: 3rem;
-     text-transform: uppercase;
-     text-align: center;
- }
+    h1 {
+      font-size: 3rem;
+      text-transform: uppercase;
+      text-align: center;
+    }
 
- .controls {
-     margin-top: 20px;
-     width: 80%;
-     /* Adjust width as needed */
-     width: 300px;
- }
+    .controls {
+      margin-top: 20px;
+      width: 80%;
+      /* Adjust width as needed */
+      width: 300px;
+    }
 
- input[type="range"] {
-     width: 100%;
- }
+    input[type="range"] {
+      width: 100%;
+    }
 
- model-viewer {
-     width: 80vw;
-     /* Adjust viewer width as needed */
-     height: 80vh;
-     /* Adjust viewer height as needed */
-     margin: 20px auto 0px auto;
-     /* Center the model-viewer */
-     display: block;
- }
+    model-viewer {
+      width: 80vw;
+      /* Adjust viewer width as needed */
+      height: 80vh;
+      /* Adjust viewer height as needed */
+      margin: 20px auto 0px auto;
+      /* Center the model-viewer */
+      display: block;
+    }
 
- input[type="range"] {
-     width: 300px;
- }
+    input[type="range"] {
+      width: 300px;
+    }
 
- #timeValue {
-     margin-left: 10px;
-     font-size: 16px;
- }
+    #timeValue {
+      margin-left: 10px;
+      font-size: 16px;
+    }
 
- input[type="range"] {
-     width: 258px;
-     -webkit-appearance: none;
-     appearance: none;
-     background: rgba(255, 255, 255, 0.4);
-     height: 8px;
-     outline: none;
-     border-radius: 5px;
-     margin: 5px 0;
- }
+    input[type="range"] {
+      width: 258px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: rgba(255, 255, 255, 0.4);
+      height: 8px;
+      outline: none;
+      border-radius: 5px;
+      margin: 5px 0;
+    }
 
- input[type="range"]::-webkit-slider-thumb {
-     -webkit-appearance: none;
-     appearance: none;
-     width: 42px;
-     height: 26px;
-     background-image: url("./Frame 57.svg");
-     cursor: pointer;
- }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 42px;
+      height: 26px;
+      background-image: url("./Frame 57.svg");
+      cursor: pointer;
+    }
 
- input[type="range"]::-moz-range-thumb {
-     width: 20px;
-     height: 20px;
-     background-image: url("./Frame 57.svg");
-     cursor: pointer;
-     border-radius: 50%;
- }
-    </style>
-  </head>
-  <body>
-    <model-viewer
-      id="modelViewer"
-      src="./asset-image/mibot.glb"
-      disable-zoom
-      exposure="1.5"
-      camera-orbit="50deg 85deg auto"
-    ></model-viewer>
-    <div class="controls">
-      <input
-        type="range"
-        id="modelRange"
-        min="0"
-        max="100"
-        value="50"
-        step="1"
-      />
-    </div>
-    <script
-      type="module"
-      src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js"
-    ></script>
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      background-image: url("./Frame 57.svg");
+      cursor: pointer;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+  <model-viewer
+    id="modelViewer"
+    src="./asset-image/mibot.glb"
+    disable-zoom
+    exposure="1.5"
+    camera-orbit="50deg 85deg auto"
+  ></model-viewer>
+  <div class="controls">
+    <input
+      type="range"
+      id="modelRange"
+      min="0"
+      max="100"
+      value="50"
+      step="1"
+    />
+  </div>
+  <script
+    type="module"
+    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js"
+  ></script>
 
-    <script>
-      const modelViewer = document.querySelector("#modelViewer");
-const modelRange = document.querySelector("#modelRange");
+  <script>
+    const modelViewer = document.querySelector("#modelViewer");
+    const modelRange = document.querySelector("#modelRange");
 
-modelRange.addEventListener("input", function () {
-  const value = parseInt(this.value);
-  const max = parseInt(this.max);
-  const newTheta = (1 - value / max) * (Math.PI * 2); // Invert direction
-  const orbit = modelViewer.getCameraOrbit();
-  modelViewer.cameraOrbit = `${newTheta}rad ${orbit.phi}rad ${orbit.radius}m`;
-});
+    modelRange.addEventListener("input", function () {
+      const value = parseInt(this.value);
+      const max = parseInt(this.max);
+      const newTheta = (1 - value / max) * (Math.PI * 2); // Invert direction
+      const orbit = modelViewer.getCameraOrbit();
+      modelViewer.cameraOrbit = `${newTheta}rad ${orbit.phi}rad ${orbit.radius}m`;
+    });
 
-let isDragging = false;
-let previousX = 0;
+    let isDragging = false;
+    let previousX = 0;
 
-modelViewer.addEventListener("mousedown", (event) => {
-  isDragging = true;
-  previousX = event.clientX;
-  modelViewer.style.cursor = "grabbing"; // Change cursor to grabbing
-  event.preventDefault();
-});
+    function handleMouseDown(event) {
+      isDragging = true;
+      previousX = event.clientX;
+      modelViewer.style.cursor = "grabbing"; // Change cursor to grabbing
+      event.preventDefault();
+    }
 
-modelViewer.addEventListener("mouseup", () => {
-  isDragging = false;
-  modelViewer.style.cursor = "grab"; // Restore cursor to grab
-});
+    function handleMouseUp() {
+      isDragging = false;
+      modelViewer.style.cursor = "grab"; // Restore cursor to grab
+    }
 
-modelViewer.addEventListener("mousemove", (event) => {
-  if (isDragging) {
-    const deltaX = event.clientX - previousX;
-    previousX = event.clientX;
-    const orbit = modelViewer.getCameraOrbit();
-    const newTheta = orbit.theta - deltaX * 0.1; // Only adjust theta (left-right rotation)
-    modelViewer.cameraOrbit = `${newTheta}rad ${orbit.phi}rad ${orbit.radius}m`;
-  }
-});
-    </script>
-  </body>
+    function handleMouseMove(event) {
+      if (isDragging) {
+        const deltaX = event.clientX - previousX;
+        previousX = event.clientX;
+        const orbit = modelViewer.getCameraOrbit();
+        const newTheta = orbit.theta - deltaX * 0.1; // Only adjust theta (left-right rotation)
+        modelViewer.cameraOrbit = `${newTheta}rad ${orbit.phi}rad ${orbit.radius}m`;
+      }
+    }
+
+    function handleTouchStart(event) {
+      isDragging = true;
+      previousX = event.touches[0].clientX;
+      modelViewer.style.cursor = "grabbing"; // Change cursor to grabbing
+      event.preventDefault();
+    }
+
+    function handleTouchEnd() {
+      isDragging = false;
+      modelViewer.style.cursor = "grab"; // Restore cursor to grab
+    }
+
+    function handleTouchMove(event) {
+      if (isDragging) {
+        const deltaX = event.touches[0].clientX - previousX;
+        previousX = event.touches[0].clientX;
+        const orbit = modelViewer.getCameraOrbit();
+        const newTheta = orbit.theta - deltaX * 0.1; // Only adjust theta (left-right rotation)
+        modelViewer.cameraOrbit = `${newTheta}rad ${orbit.phi}rad ${orbit.radius}m`;
+      }
+    }
+
+    // Event listeners for mouse events
+    modelViewer.addEventListener("mousedown", handleMouseDown);
+    modelViewer.addEventListener("mouseup", handleMouseUp);
+    modelViewer.addEventListener("mousemove", handleMouseMove);
+
+    // Event listeners for touch events
+    modelViewer.addEventListener("touchstart", handleTouchStart);
+    modelViewer.addEventListener("touchend", handleTouchEnd);
+    modelViewer.addEventListener("touchmove", handleTouchMove);
+  </script>
+</body>
 </html>
